@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凤凰传奇家具 · 产品图库</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; }
+  body { background:#fbf9f7; color:#2e2b28; line-height:1.5; }
+  .container { max-width:1400px; margin:0 auto; padding:0 24px; }
+
+  /* ===== 导航 ===== */
+  .navbar { background:#fff; box-shadow:0 2px 12px rgba(0,0,0,.03); padding:18px 0; border-bottom:1px solid #ede8e2; position:sticky; top:0; z-index:10; }
+  .navbar .container { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .logo { font-size:1.8rem; font-weight:600; letter-spacing:-.02em; color:#4a3f35; }
+  .logo i { color:#b8a28b; margin-right:6px; }
+  .nav-links { display:flex; gap:28px; align-items:center; flex-wrap:wrap; }
+  .nav-links a { text-decoration:none; color:#4a3f35; font-weight:500; font-size:.95rem; transition:color .2s; cursor:pointer; }
+  .nav-links a:hover { color:#b8a28b; }
+
+  /* ===== 品牌大头照片 Hero Banner ===== */
+  .brand-hero {
+    position: relative;
+    width: 100%;
+    height: 78vh;
+    min-height: 480px;
+    max-height: 820px;
+    overflow: hidden;
+    background: #2e2b28;
+    margin-bottom: 56px;
+  }
+  .brand-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.92);
+  }
+  .brand-hero .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(to top, rgba(20,18,16,.65) 0%, rgba(20,18,16,.15) 50%, rgba(20,18,16,.25) 100%);
+    color: #fff;
+  }
+  .brand-hero .hero-content h1 {
+    font-size: 3.4rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 24px rgba(0,0,0,.3);
+  }
+  .brand-hero .hero-content p {
+    font-size: 1.25rem;
+    font-weight: 300;
+    max-width: 640px;
+    margin-bottom: 32px;
+    color: rgba(255,255,255,.88);
+    text-shadow: 0 1px 12px rgba(0,0,0,.3);
+  }
+  .brand-hero .hero-content .scroll-btn {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.45);
+    color: #fff;
+    padding: 14px 36px;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all .2s;
+    backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-hero .hero-content .scroll-btn:hover {
+    background: rgba(255,255,255,.3);
+    border-color: #fff;
+  }
+  .brand-hero .hero-content .scroll-btn i {
+    font-size: .85rem;
+  }
+
+  /* ===== 分类筛选栏 ===== */
+  .filter-bar { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:36px; justify-content:center; }
+  .filter-btn { background:#fff; border:1px solid #e2d9d0; padding:11px 30px; border-radius:40px; font-weight:500; color:#5c554e; cursor:pointer; transition:all .2s; font-size:.95rem; }
+  .filter-btn.active { background:#2e2b28; color:#fff; border-color:#2e2b28; }
+  .filter-btn:hover { background:#e2d9d0; border-color:#b8a28b; }
+  .filter-btn.active:hover { background:#2e2b28; color:#fff; }
+
+  /* ===== 分类区块 ===== */
+  .category-block { margin-bottom:64px; }
+  .category-block.hidden { display:none; }
+  .category-header { display:flex; align-items:baseline; gap:16px; margin-bottom:28px; padding-bottom:14px; border-bottom:1px solid #ede8e2; }
+  .category-header h2 { font-size:1.9rem; font-weight:500; letter-spacing:-.01em; color:#2e2b28; }
+  .category-header .count { font-size:.9rem; color:#9b8c7c; font-weight:400; }
+
+  /* ===== 照片网格 ===== */
+  .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+  .photo-item { position:relative; border-radius:20px; overflow:hidden; background:#f0eae4; cursor:pointer; aspect-ratio:4/3; box-shadow:0 4px 16px rgba(0,0,0,.03); transition:transform .3s, box-shadow .3s; }
+  .photo-item:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.1); }
+  .photo-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s; }
+  .photo-item:hover img { transform:scale(1.04); }
+  .photo-item .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(20,18,16,.4) 0%, transparent 50%); opacity:0; transition:opacity .3s; display:flex; align-items:flex-end; padding:18px; }
+  .photo-item:hover .overlay { opacity:1; }
+  .photo-item .overlay i { color:#fff; font-size:1.1rem; background:rgba(255,255,255,.2); width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .photo-item .tag { position:absolute; top:14px; left:14px; background:rgba(255,255,255,.92); color:#4a3f35; font-size:.72rem; font-weight:600; padding:5px 14px; border-radius:20px; letter-spacing:.03em; backdrop-filter:blur(4px); }
+
+  /* ===== 空状态 ===== */
+  .empty-state { text-align:center; padding:100px 0; color:#9b8c7c; font-size:1.05rem; }
+  .empty-state i { font-size:3rem; color:#d6cec4; margin-bottom:16px; display:block; }
+
+  /* ===== 联系我们 ===== */
+  .contact-section { background:#fff; padding:70px 0; border-radius:40px 40px 0 0; margin-top:20px; border-top:1px solid #f0eae4; }
+  .contact-grid { display:flex; gap:60px; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+  .contact-info h2 { font-size:2rem; font-weight:500; margin-bottom:20px; }
+  .contact-info p { color:#5c554e; margin-bottom:12px; display:flex; align-items:center; gap:12px; font-size:1rem; }
+  .contact-info i { width:24px; color:#b8a28b; }
+  .contact-note { font-size:1.1rem; border-left:3px solid #b8a28b; padding-left:20px; max-width:400px; color:#2e2b28; }
+
+  .footer { background:#fff; padding:32px 0; text-align:center; border-top:1px solid #f0eae4; color:#9b8c7c; font-size:.9rem; }
+
+  /* ===== 全屏图片查看器 ===== */
+  .viewer-overlay { position:fixed; inset:0; background:rgba(15,14,12,.94); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; z-index:2000; padding:24px; }
+  .viewer-overlay.active { display:flex; }
+  .viewer-container { position:relative; width:100%; max-width:1200px; height:100%; max-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .viewer-main { display:flex; align-items:center; justify-content:center; width:100%; flex:1; overflow:hidden; }
+  .viewer-main img { max-width:100%; max-height:78vh; object-fit:contain; border-radius:12px; box-shadow:0 24px 64px rgba(0,0,0,.5); }
+  .viewer-close { position:absolute; top:0; right:0; background:rgba(255,255,255,.12); border:none; color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.2rem; transition:background .2s; z-index:10; backdrop-filter:blur(4px); }
+  .viewer-close:hover { background:rgba(255,255,255,.25); }
+  .viewer-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.12); border:none; color:#fff; width:52px; height:52px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; transition:background .2s; z-index:10; backdrop-filter:blur(4px); }
+  .viewer-nav:hover { background:rgba(255,255,255,.25); }
+  .viewer-nav:disabled { opacity:.2; cursor:not-allowed; }
+  .viewer-nav.prev { left:12px; }
+  .viewer-nav.next { right:12px; }
+  .viewer-info { color:#b8a28b; font-size:.9rem; margin-top:20px; text-align:center; letter-spacing:.05em; }
+
+  @media (max-width:768px) {
+    .brand-hero { height: 60vh; min-height: 380px; }
+    .brand-hero .hero-content h1 { font-size: 2.2rem; }
+    .brand-hero .hero-content p { font-size: 1rem; }
+    .category-header h2 { font-size:1.5rem; }
+    .photo-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+    .photo-item { border-radius:14px; }
+    .viewer-nav.prev { left:4px; }
+    .viewer-nav.next { right:4px; }
+    .viewer-close { top:-8px; right:-8px; width:40px; height:40px; }
+    .contact-grid { flex-direction:column; align-items:flex-start; gap:32px; }
+    .nav-links { gap:18px; }
+    .filter-btn { padding:9px 20px; font-size:.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<nav class="navbar">
+  <div class="container">
+    <div class="logo"><i class="file:///C:/Users/Administrator/Desktop/%E7%BD%91%E7%AB%99%E4%BB%A3%E7%A0%81/logo.jpg"></i> 凤凰传奇家具</div>
+    <div class="nav-links">
+      <a href="#gallery" id="navAll">全部产品</a>
+      <a href="#contact">联系我们</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== 品牌大头照片 Hero Banner ===== -->
+<section class="brand-hero">
+  <img id="brandHeroImg" src="" alt="品牌形象大图">
+  <div class="hero-content">
+    <h1>自然灵感 · 匠心生活</h1>
+    <p>每一件家具，都是对材质与形态的深思熟虑。按品类浏览我们的作品。</p>
+    <button class="scroll-btn" id="scrollToGalleryBtn">
+      浏览产品图库 <i class="fas fa-arrow-down"></i>
+    </button>
+  </div>
+</section>
+
+<!-- ===== 分类筛选栏 + 产品图库 ===== -->
+<div class="container" id="gallery">
+  <div class="filter-bar" id="filterBar"></div>
+  <div id="galleryContainer"></div>
+</div>
+
+<!-- ===== 联系我们 ===== -->
+<section class="contact-section" id="contact">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <h2>联系我们</h2>
+      <p><i class="fas fa-map-pin"></i> 缅甸，仰光，莱达亚，水甘达亚小区</p>
+      <p><i class="fas fa-phone-alt"></i> 09752636681，09752636696</p>
+      <p><i class="fas fa-envelope"></i> zarmanifurniture@gmail.com</p>
+      <p><i class="fas fa-clock"></i> 周一至周六 10:00 – 17:00</p>
+    </div>
+    <div class="contact-note">
+      <i class="fas fa-leaf" style="color:#b8a28b; margin-right:8px;"></i>
+      欢迎预约展厅参观，体验材质与工艺。我们提供专业的产品咨询与定制服务。
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">© 2026 凤凰传奇家具 · 产品图库 · 按分类独立浏览</div>
+</footer>
+
+<!-- ===== 全屏图片查看器 ===== -->
+<div class="viewer-overlay" id="viewerOverlay">
+  <div class="viewer-container">
+    <button class="viewer-close" id="viewerClose"><i class="fas fa-times"></i></button>
+    <button class="viewer-nav prev" id="viewerPrev"><i class="fas fa-chevron-left"></i></button>
+    <div class="viewer-main">
+      <img id="viewerImg" src="" alt="">
+    </div>
+    <button class="viewer-nav next" id="viewerNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="viewer-info" id="viewerInfo"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ============================================================
+  //  品牌大头照片 —— 在这里替换成您的品牌形象图
+  //  支持网络URL，也支持本地路径（如 images/brand-hero.jpg）
+  // ============================================================
+  var BRAND_HERO_IMAGE = 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=1080&fit=crop&auto=format';
+
+  // ============================================================
+  //  照片数据配置区 —— 每个分类下是图片URL数组
+  // ============================================================
+  var PHOTO_DATA = {
+    '桌子': [
+      'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=1200&h=900&fit=crop&auto=format',
+      'C:\Users\Administrator\Desktop\网站代码\餐桌, 餐厅\餐桌 (1).jpg',
+      'https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '椅子': [
+      'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=1200&h=900&fit=crop&auto=format',
+      'file:///C:/Users/Administrator/Desktop/%E7%BD%91%E7%AB%99%E4%BB%A3%E7%A0%81/%E9%A4%90%E6%A1%8C,%20%E9%A4%90%E5%8E%85/%E9%A4%90%E6%A1%8C%20(2).jpg',
+      'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '沙发': [
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1550226891-ef816aed4a98?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '老板桌': [
+      'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '前台': [
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '柜子': [
+      'https://images.unsplash.com/photo-1594620302200-9a762244a156?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&h=900&fit=crop&auto=format'
+    ],
+    '茶台': [
+      'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1200&h=900&fit=crop&auto=format',
+      'https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=1200&h=900&fit=crop&auto=format'
+    ]
+  };
+
+  var CATEGORY_ORDER = ['桌子', '椅子', '沙发', '老板桌', '前台', '柜子', '茶台'];
+  var activeCategory = null;
+  var currentViewerList = [];
+  var currentViewerIndex = 0;
+
+  // ============ 工具函数 ============
+  function escapeHtml(text) {
+    if (!text) return '';
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ============ 渲染品牌大头照片 ============
+  function renderBrandHero() {
+    var img = document.getElementById('brandHeroImg');
+    img.src = BRAND_HERO_IMAGE;
+    img.onerror = function() {
+      // 加载失败时用深色渐变兜底
+      this.style.display = 'none';
+      var hero = this.parentElement;
+      hero.style.background = 'linear-gradient(135deg, #4a3f35 0%, #2e2b28 100%)';
+    };
+  }
+
+  // ============ 渲染分类筛选按钮 ============
+  function renderFilterBar() {
+    var bar = document.getElementById('filterBar');
+    var html = '';
+    html += '<button class="filter-btn' + (activeCategory === null ? ' active' : '') + '" data-cat="__all__">全部</button>';
+    CATEGORY_ORDER.forEach(function(cat) {
+      if (!PHOTO_DATA[cat] || PHOTO_DATA[cat].length === 0) return;
+      html += '<button class="filter-btn' + (activeCategory === cat ? ' active' : '') + '" data-cat="' + escapeHtml(cat) + '">' + escapeHtml(cat) + '</button>';
+    });
+    bar.innerHTML = html;
+
+    bar.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var cat = this.dataset.cat;
+        activeCategory = (cat === '__all__') ? null : cat;
+        bar.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        applyFilter();
+      });
+    });
+  }
+
+  // ============ 渲染各分类照片区块 ============
+  function renderGallery() {
+    var container = document.getElementById('galleryContainer');
+    var html = '';
+
+    CATEGORY_ORDER.forEach(function(cat) {
+      var photos = PHOTO_DATA[cat] || [];
+      if (photos.length === 0) return;
+
+      html += '<section class="category-block" data-category="' + escapeHtml(cat) + '">';
+      html += '<div class="category-header">';
+      html += '<h2>' + escapeHtml(cat) + '</h2>';
+      html += '<span class="count">' + photos.length + ' 张照片</span>';
+      html += '</div>';
+      html += '<div class="photo-grid">';
+
+      photos.forEach(function(url, idx) {
+        html += '<div class="photo-item" data-category="' + escapeHtml(cat) + '" data-index="' + idx + '">';
+        html += '<img src="' + escapeHtml(url) + '" alt="' + escapeHtml(cat) + ' 产品照片 ' + (idx + 1) + '" loading="lazy" onerror="this.onerror=null; this.src=\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22450%22 viewBox=%220 0 600 450%22><rect fill=%22%23f0eae4%22 width=%22600%22 height=%22450%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23b8a28b%22 text-anchor=%22middle%22 dy=%22.3em%22>图片加载失败</text></svg>\';">';
+        html += '<span class="tag">' + escapeHtml(cat) + '</span>';
+        html += '<div class="overlay"><i class="fas fa-expand"></i></div>';
+        html += '</div>';
+      });
+
+      html += '</div>';
+      html += '</section>';
+    });
+
+    if (html === '') {
+      html = '<div class="empty-state"><i class="fas fa-image"></i>暂无产品照片，请在代码中 PHOTO_DATA 处添加图片。</div>';
+    }
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('.photo-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var cat = this.dataset.category;
+        var index = parseInt(this.dataset.index, 10);
+        openViewer(cat, index);
+      });
+    });
+
+    applyFilter();
+  }
+
+  // ============ 筛选显示 ============
+  function applyFilter() {
+    var blocks = document.querySelectorAll('.category-block');
+    blocks.forEach(function(block) {
+      if (activeCategory === null || block.dataset.category === activeCategory) {
+        block.classList.remove('hidden');
+      } else {
+        block.classList.add('hidden');
+      }
+    });
+  }
+
+  // ============ 全屏图片查看器 ============
+  var viewerOverlay = document.getElementById('viewerOverlay');
+  var viewerImg = document.getElementById('viewerImg');
+  var viewerInfo = document.getElementById('viewerInfo');
+  var viewerPrev = document.getElementById('viewerPrev');
+  var viewerNext = document.getElementById('viewerNext');
+
+  function openViewer(category, index) {
+    currentViewerList = PHOTO_DATA[category] || [];
+    if (currentViewerList.length === 0) return;
+    currentViewerIndex = index;
+    updateViewer();
+    viewerOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateViewer() {
+    if (currentViewerList.length === 0) return;
+    if (currentViewerIndex < 0) currentViewerIndex = 0;
+    if (currentViewerIndex >= currentViewerList.length) currentViewerIndex = currentViewerList.length - 1;
+
+    viewerImg.src = currentViewerList[currentViewerIndex];
+    viewerInfo.textContent = (currentViewerIndex + 1) + ' / ' + currentViewerList.length;
+
+    viewerPrev.disabled = currentViewerIndex === 0;
+    viewerNext.disabled = currentViewerIndex === currentViewerList.length - 1;
+  }
+
+  viewerPrev.addEventListener('click', function() {
+    if (currentViewerIndex > 0) { currentViewerIndex--; updateViewer(); }
+  });
+  viewerNext.addEventListener('click', function() {
+    if (currentViewerIndex < currentViewerList.length - 1) { currentViewerIndex++; updateViewer(); }
+  });
+  document.getElementById('viewerClose').addEventListener('click', closeViewer);
+  viewerOverlay.addEventListener('click', function(e) {
+    if (e.target === viewerOverlay) closeViewer();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!viewerOverlay.classList.contains('active')) return;
+    if (e.key === 'Escape') closeViewer();
+    if (e.key === 'ArrowLeft') viewerPrev.click();
+    if (e.key === 'ArrowRight') viewerNext.click();
+  });
+
+  function closeViewer() {
+    viewerOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // ============ 初始化 ============
+  function init() {
+    renderBrandHero();
+    renderFilterBar();
+    renderGallery();
+
+    // Hero 区域按钮 → 滚动到图库
+    document.getElementById('scrollToGalleryBtn').addEventListener('click', function() {
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // 导航“全部产品” → 重置筛选并滚动
+    document.getElementById('navAll').addEventListener('click', function(e) {
+      e.preventDefault();
+      activeCategory = null;
+      var bar = document.getElementById('filterBar');
+      bar.querySelectorAll('.filter-btn').forEach(function(b) {
+        if (b.dataset.cat === '__all__') b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      applyFilter();
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
